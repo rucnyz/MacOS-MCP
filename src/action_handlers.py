@@ -88,8 +88,8 @@ def handle_remote_macos_mouse_scroll(arguments: dict[str, Any]) -> list[types.Te
     # Get required parameters from arguments
     x = arguments.get("x")
     y = arguments.get("y")
-    source_width = int(arguments.get("source_width", 1366))
-    source_height = int(arguments.get("source_height", 768))
+    source_width = int(arguments.get("source_width", 1920))
+    source_height = int(arguments.get("source_height", 1080))
     direction = arguments.get("direction", "down")
 
     if x is None or y is None:
@@ -165,8 +165,8 @@ def handle_remote_macos_mouse_click(arguments: dict[str, Any]) -> list[types.Tex
     # Get required parameters from arguments
     x = arguments.get("x")
     y = arguments.get("y")
-    source_width = int(arguments.get("source_width", 1366))
-    source_height = int(arguments.get("source_height", 768))
+    source_width = int(arguments.get("source_width", 1920))
+    source_height = int(arguments.get("source_height", 1080))
     button = int(arguments.get("button", 1))
 
     if x is None or y is None:
@@ -364,8 +364,8 @@ def handle_remote_macos_mouse_double_click(arguments: dict[str, Any]) -> list[ty
     # Get required parameters from arguments
     x = arguments.get("x")
     y = arguments.get("y")
-    source_width = int(arguments.get("source_width", 1366))
-    source_height = int(arguments.get("source_height", 768))
+    source_width = int(arguments.get("source_width", 1920))
+    source_height = int(arguments.get("source_height", 1080))
     button = int(arguments.get("button", 1))
 
     if x is None or y is None:
@@ -430,8 +430,8 @@ def handle_remote_macos_mouse_move(arguments: dict[str, Any]) -> list[types.Text
     # Get required parameters from arguments
     x = arguments.get("x")
     y = arguments.get("y")
-    source_width = int(arguments.get("source_width", 1366))
-    source_height = int(arguments.get("source_height", 768))
+    source_width = int(arguments.get("source_width", 1920))
+    source_height = int(arguments.get("source_height", 1080))
 
     if x is None or y is None:
         raise ValueError("x and y coordinates are required")
@@ -570,8 +570,8 @@ def handle_remote_macos_mouse_drag_n_drop(arguments: dict[str, Any]) -> list[typ
     start_y = arguments.get("start_y")
     end_x = arguments.get("end_x")
     end_y = arguments.get("end_y")
-    source_width = int(arguments.get("source_width", 1366))
-    source_height = int(arguments.get("source_height", 768))
+    source_width = int(arguments.get("source_width", 1920))
+    source_height = int(arguments.get("source_height", 1080))
     button = int(arguments.get("button", 1))
     steps = int(arguments.get("steps", 10))
     delay_ms = int(arguments.get("delay_ms", 10))

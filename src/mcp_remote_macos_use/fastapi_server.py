@@ -68,8 +68,8 @@ app = FastAPI(
 class MouseScrollRequest(BaseModel):
     x: int = Field(..., description="X coordinate for mouse position (in source dimensions)")
     y: int = Field(..., description="Y coordinate for mouse position (in source dimensions)")
-    source_width: int = Field(1366, description="Width of the reference screen for coordinate scaling")
-    source_height: int = Field(768, description="Height of the reference screen for coordinate scaling")
+    source_width: int = Field(1920, description="Width of the reference screen for coordinate scaling")
+    source_height: int = Field(1080, description="Height of the reference screen for coordinate scaling")
     direction: str = Field("down", description="Scroll direction (up/down)")
 
 
@@ -82,23 +82,23 @@ class SendKeysRequest(BaseModel):
 class MouseMoveRequest(BaseModel):
     x: int = Field(..., description="X coordinate for mouse position (in source dimensions)")
     y: int = Field(..., description="Y coordinate for mouse position (in source dimensions)")
-    source_width: int = Field(1366, description="Width of the reference screen for coordinate scaling")
-    source_height: int = Field(768, description="Height of the reference screen for coordinate scaling")
+    source_width: int = Field(1920, description="Width of the reference screen for coordinate scaling")
+    source_height: int = Field(1080, description="Height of the reference screen for coordinate scaling")
 
 
 class MouseClickRequest(BaseModel):
     x: int = Field(..., description="X coordinate for mouse position (in source dimensions)")
     y: int = Field(..., description="Y coordinate for mouse position (in source dimensions)")
-    source_width: int = Field(1366, description="Width of the reference screen for coordinate scaling")
-    source_height: int = Field(768, description="Height of the reference screen for coordinate scaling")
+    source_width: int = Field(1920, description="Width of the reference screen for coordinate scaling")
+    source_height: int = Field(1080, description="Height of the reference screen for coordinate scaling")
     button: int = Field(1, description="Mouse button (1=left, 2=middle, 3=right)")
 
 
 class MouseDoubleClickRequest(BaseModel):
     x: int = Field(..., description="X coordinate for mouse position (in source dimensions)")
     y: int = Field(..., description="Y coordinate for mouse position (in source dimensions)")
-    source_width: int = Field(1366, description="Width of the reference screen for coordinate scaling")
-    source_height: int = Field(768, description="Height of the reference screen for coordinate scaling")
+    source_width: int = Field(1920, description="Width of the reference screen for coordinate scaling")
+    source_height: int = Field(1080, description="Height of the reference screen for coordinate scaling")
     button: int = Field(1, description="Mouse button (1=left, 2=middle, 3=right)")
 
 
@@ -111,8 +111,8 @@ class MouseDragDropRequest(BaseModel):
     start_y: int = Field(..., description="Starting Y coordinate (in source dimensions)")
     end_x: int = Field(..., description="Ending X coordinate (in source dimensions)")
     end_y: int = Field(..., description="Ending Y coordinate (in source dimensions)")
-    source_width: int = Field(1366, description="Width of the reference screen for coordinate scaling")
-    source_height: int = Field(768, description="Height of the reference screen for coordinate scaling")
+    source_width: int = Field(1920, description="Width of the reference screen for coordinate scaling")
+    source_height: int = Field(1080, description="Height of the reference screen for coordinate scaling")
     button: int = Field(1, description="Mouse button (1=left, 2=middle, 3=right)")
     steps: int = Field(10, description="Number of intermediate points for smooth dragging")
     delay_ms: int = Field(10, description="Delay between steps in milliseconds")
