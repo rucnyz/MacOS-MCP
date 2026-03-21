@@ -353,6 +353,59 @@ async def run_shell(request: ShellRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@app.post("/reset")
+async def reset_vm():
+    """Reset the macOS VM by sending 'loadvm booted' to QEMU monitor.
+
+    Waits for SSH to recover before returning 200, so the caller knows
+    the VM is ready for the next task.
+    """
+    import socket
+    import time
+
+    monitor_port = int(os.environ.get("QEMU_MONITOR_PORT", "7100"))
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.settimeout(30)
+        s.connect(("127.0.0.1", monitor_port))
+        s.recv(4096)
+        s.sendall(b"loadvm booted\n")
+        time.sleep(2)
+        try:
+            s.recv(4096)
+        except Exception:
+            pass
+        s.close()
+    except Exception as e:
+        logger.error(f"Failed to send loadvm: {e}")
+        raise HTTPException(status_code=500, detail=f"loadvm failed: {e}")
+
+    # Wait for SSH to recover (VM state restored)
+    ssh_host = os.environ.get("MACOS_SSH_HOST", MACOS_HOST or "127.0.0.1")
+    ssh_port = int(os.environ.get("MACOS_SSH_PORT", "22"))
+    ssh_user = os.environ.get("MACOS_SSH_USER", MACOS_USERNAME or "docker")
+    ssh_pass = os.environ.get("MACOS_SSH_PASSWORD", MACOS_PASSWORD or "docker")
+
+    import paramiko
+    deadline = time.monotonic() + 120
+    while time.monotonic() < deadline:
+        try:
+            client = paramiko.SSHClient()
+            client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            client.connect(
+                hostname=ssh_host, port=ssh_port, username=ssh_user,
+                password=ssh_pass, timeout=5, look_for_keys=False, allow_agent=False,
+            )
+            client.exec_command("echo ok", timeout=5)
+            client.close()
+            logger.info("VM reset complete, SSH recovered")
+            return JSONResponse(content={"status": "ok"})
+        except Exception:
+            time.sleep(3)
+
+    raise HTTPException(status_code=503, detail="VM reset timed out waiting for SSH")
+
+
 if __name__ == "__main__":
     logger.info("Starting Remote MacOS Control FastAPI server on port 8005")
     uvicorn.run(app, host="0.0.0.0", port=8005, log_level="info")
